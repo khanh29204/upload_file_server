@@ -1,4 +1,3 @@
-````markdown
 # Dự án Upload File với NestJS và Nginx
 
 Dự án này cung cấp một API đơn giản để upload nhiều file cùng lúc (bao gồm ảnh, video và các loại file khác) sử dụng NestJS làm backend và Nginx làm reverse proxy. File được lưu trữ trên server và đường dẫn URL được trả về cho client.
@@ -10,7 +9,6 @@ Dự án này cung cấp một API đơn giản để upload nhiều file cùng 
    git clone <repository-url>
    cd <project-directory>
    ```
-````
 
 2. **Cài đặt dependencies:**
 
