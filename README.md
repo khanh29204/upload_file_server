@@ -6,8 +6,8 @@ Dự án này cung cấp một API đơn giản để upload nhiều file cùng 
 
 1. **Clone dự án:**
    ```bash
-   git clone <repository-url>
-   cd <project-directory>
+   git clone https://github.com/quockhanh2004/upload_file_server.git
+   cd upload_file_server
    ```
 
 2. **Cài đặt dependencies:**
