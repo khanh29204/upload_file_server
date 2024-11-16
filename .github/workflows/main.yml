@@ -1,0 +1,25 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: self-hosted
+    strategy:
+      matrix:
+        node-version: [20.x]
+    steps:
+      - name: Install dependencies
+        run: |
+          cd /home/khanh/upload_file_server
+          git pull
+          pnpm install --frozen-lockfile
+
+  deploy:
+    runs-on: self-hosted
+    needs: build
+    steps:
+      - name: Deploy server
+        run: pm2 restart 'web upload file'
