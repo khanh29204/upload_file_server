@@ -92,7 +92,7 @@ API sẽ trả về một JSON array chứa các URL của file đã upload.
 - **Phân loại file:** Ảnh được lưu trong thư mục `images`, video được lưu trong thư mục `videos`. Các file khác được lưu trữ ở thư mục gốc `uploads`.
 - **Tạo tên file duy nhất cho ảnh và video:** Sử dụng SHA256 hash để tạo tên file duy nhất cho ảnh và video, tránh trùng lặp. Các loại file khác giữ nguyên tên gốc.
 - **Nén ảnh:** Ảnh lớn hơn 1.5MB sẽ được nén lại với chất lượng 95.
-- **Symlink:** Sử dụng symlink để liên kết thư mục `uploads` trong dự án với thư mục `drive_files` trên server, giúp dễ dàng quản lý file.
+- **Symlink:** Sử dụng symlink để liên kết thư mục `uploads` trong dự án với thư mục `drive` trên server, giúp dễ dàng quản lý file.
 
 ## Công nghệ sử dụng
 
