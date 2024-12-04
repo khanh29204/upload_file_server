@@ -16,6 +16,7 @@ jobs:
           cd /home/khanh/upload_file_server
           git pull
           pnpm install --frozen-lockfile
+          pnpm build
 
   deploy:
     runs-on: self-hosted
