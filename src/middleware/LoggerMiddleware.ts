@@ -5,7 +5,18 @@ import { Request, Response, NextFunction } from 'express';
 export class LoggerMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
     const startTime = Date.now();
-    const ip = req.ip; // Lấy địa chỉ IPv4
+    let ip = req.headers['x-real-ip'] as string;
+    if (!ip) {
+      // Nếu x-real-ip không tồn tại, thử x-forwarded-for
+      const xForwardedFor = req.headers['x-forwarded-for'] as string;
+      if (xForwardedFor) {
+        ip = xForwardedFor.split(',')[0].trim(); // Lấy địa chỉ IP đầu tiên
+      }
+    }
+
+    if (!ip) {
+      ip = req.ip; // Sử dụng req.ip nếu các header proxy không có
+    }
     const method = req.method;
     const endpoint = req.originalUrl;
 
