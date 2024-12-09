@@ -19,7 +19,7 @@ export class AppService {
       throw new BadRequestException('No files provided');
     }
 
-    const serverDir = join(__dirname, '../../drive/');
+    const serverDir = join(process.env.serverDir);
     const uploadDir = join(__dirname, '../uploads');
 
     if (!existsSync(serverDir)) {

@@ -7,7 +7,6 @@ export class LoggerMiddleware implements NestMiddleware {
     const startTime = Date.now();
     let ip = req.headers['x-real-ip'] as string;
     if (!ip) {
-      // Nếu x-real-ip không tồn tại, thử x-forwarded-for
       const xForwardedFor = req.headers['x-forwarded-for'] as string;
       if (xForwardedFor) {
         ip = xForwardedFor.split(',')[0].trim(); // Lấy địa chỉ IP đầu tiên

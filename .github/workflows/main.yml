@@ -15,8 +15,9 @@ jobs:
         run: |
           cd /home/khanh/upload_file_server
           git pull
-          pnpm install --frozen-lockfile
-          pnpm build
+          npm i
+          npm prisma:deploy
+          npm build
 
   deploy:
     runs-on: self-hosted
