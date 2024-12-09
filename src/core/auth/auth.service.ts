@@ -12,8 +12,8 @@ export class AuthService {
   ) {}
 
   public async login(loginParams: LoginParams) {
-    const user = await this.usersService.findOne(loginParams.userName);
     console.log(`loginParams`, loginParams);
+    const user = await this.usersService.findOne(loginParams.userName);
 
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
