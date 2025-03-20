@@ -25,7 +25,7 @@ export class AppService {
       throw new BadRequestException('No files provided');
     }
 
-    const serverDir = join(SERVER_DIR);
+    const serverDir = join(serverDir);
     if (!existsSync(serverDir)) {
       mkdirSync(serverDir, { recursive: true });
     }
