@@ -13,7 +13,7 @@ import * as Sharp from 'sharp';
 
 dotenv.config();
 
-const { DOMAIN, USE_SUB_DIR, CREATE_SYMLINK, serverDir } = process.env;
+const { DOMAIN, USE_SUB_DIR, CREATE_SYMLINK, SERVER_DIR } = process.env;
 
 const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
 const videoExtensions = ['.mp4', '.mov', '.avi'];
@@ -25,7 +25,7 @@ export class AppService {
       throw new BadRequestException('No files provided');
     }
 
-    const serverDir = join(serverDir);
+    const serverDir = join(SERVER_DIR);
     if (!existsSync(serverDir)) {
       mkdirSync(serverDir, { recursive: true });
     }
