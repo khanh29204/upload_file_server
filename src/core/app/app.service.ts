@@ -1,6 +1,12 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { extname, join } from 'path';
-import { writeFileSync, existsSync, mkdirSync, symlinkSync } from 'fs';
+import {
+  writeFileSync,
+  existsSync,
+  mkdirSync,
+  symlinkSync,
+  PathLike,
+} from 'fs';
 import { createHash } from 'crypto';
 import * as dotenv from 'dotenv';
 import * as Sharp from 'sharp';
@@ -20,19 +26,26 @@ export class AppService {
     }
 
     const serverDir = join(process.env.serverDir);
-    const uploadDir = join(__dirname, '../uploads');
 
     if (!existsSync(serverDir)) {
       mkdirSync(serverDir, { recursive: true });
     }
 
-    if (!existsSync(uploadDir)) {
-      try {
-        symlinkSync(serverDir, uploadDir);
-        console.log(`Symlink created from ${serverDir} to ${uploadDir}`);
-      } catch (error) {
-        console.error('Error creating symlink:', error);
+    let uploadDir: PathLike;
+    const CREATE_SYMLINK = process.env.CREATE_SYMLINK ?? true;
+    Logger.log(CREATE_SYMLINK);
+    if (CREATE_SYMLINK) {
+      uploadDir = join(__dirname, '../uploads');
+      if (!existsSync(uploadDir)) {
+        try {
+          symlinkSync(serverDir, uploadDir);
+          console.log(`Symlink created from ${serverDir} to ${uploadDir}`);
+        } catch (error) {
+          console.error('Error creating symlink:', error);
+        }
       }
+    } else {
+      uploadDir = join(serverDir, 'uploads');
     }
 
     const uploadedFiles = [];
@@ -73,10 +86,17 @@ export class AppService {
 
       writeFileSync(uploadPath, fileBuffer);
 
-      const method = DOMAIN.includes('localhost') ? 'http' : 'https';
-      const fileUrl = `${method}://${DOMAIN}/files/${
-        subDir ? subDir + '/' : ''
-      }${fileName}`;
+      let method;
+      let fileUrl;
+      if (DOMAIN.startsWith('http://') || DOMAIN.startsWith('https://')) {
+        fileUrl = `${DOMAIN}/files/${subDir ? subDir + '/' : ''}${fileName}`;
+      } else {
+        method = DOMAIN.includes('localhost') ? 'http' : 'https';
+        fileUrl = `${method}://${DOMAIN}/files/${
+          subDir ? subDir + '/' : ''
+        }${fileName}`;
+      }
+
       uploadedFiles.push({ url: fileUrl });
     }
 

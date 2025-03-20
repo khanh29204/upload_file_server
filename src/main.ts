@@ -13,7 +13,7 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '..', 'uploads'), { prefix: '/file' });
   app.enableCors();
   await app.listen(3001);
-  console.log(`https://${DOMAIN}`);
+  console.log(`${DOMAIN.includes('localhost') ? 'http' : 'https'}://${DOMAIN}`);
 }
 
 bootstrap();
