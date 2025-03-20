@@ -13,7 +13,7 @@ import * as Sharp from 'sharp';
 
 dotenv.config();
 
-const { DOMAIN } = process.env;
+const { DOMAIN, USE_SUB_DIR, CREATE_SYMLINK } = process.env;
 
 const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
 const videoExtensions = ['.mp4', '.mov', '.avi'];
@@ -32,9 +32,8 @@ export class AppService {
     }
 
     let uploadDir: PathLike;
-    const CREATE_SYMLINK = process.env.CREATE_SYMLINK ?? true;
     Logger.log(CREATE_SYMLINK);
-    if (CREATE_SYMLINK) {
+    if (Boolean(CREATE_SYMLINK ?? true)) {
       uploadDir = join(__dirname, '../uploads');
       if (!existsSync(uploadDir)) {
         try {
@@ -71,10 +70,12 @@ export class AppService {
       }
 
       let subDir = '';
-      if (isImage) {
-        subDir = 'images';
-      } else if (isVideo) {
-        subDir = 'videos';
+      if (Boolean(USE_SUB_DIR ?? true)) {
+        if (isImage) {
+          subDir = 'images';
+        } else if (isVideo) {
+          subDir = 'videos';
+        }
       }
 
       const uploadPath = join(uploadDir, subDir, fileName);
