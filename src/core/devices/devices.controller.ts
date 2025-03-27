@@ -12,10 +12,12 @@ import {
 import { DevicesService } from './devices.service';
 import {
   AddDeviceParam,
+  ReturnClientParam,
   SendCommandParam,
   UpdateDeviceParam,
 } from './device.dto';
 import { TokenPayload } from '../auth/auth.model';
+import { Public } from '../auth/auth.decorator';
 
 @Controller('devices')
 export class DevicesController {
@@ -62,5 +64,11 @@ export class DevicesController {
   async addMyToken(@Req() req: Request, @Body() body: { token: string }) {
     const user: TokenPayload = req['user'];
     return await this.deviceService.addMyToken(body.token, user.id);
+  }
+
+  @Public()
+  @Post('/return-client')
+  async returnClient(@Body() body: ReturnClientParam) {
+    return await this.deviceService.returnClient(body);
   }
 }

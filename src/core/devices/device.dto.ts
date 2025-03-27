@@ -23,3 +23,11 @@ export class SendCommandParam {
   @IsNotEmpty()
   command: string;
 }
+
+export class ReturnClientParam {
+  @IsNotEmpty()
+  fcmTokenDevice: string;
+
+  @IsNotEmpty()
+  message: string;
+}

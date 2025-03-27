@@ -8,6 +8,7 @@ import {
 import { PrismaService } from 'src/prisma/prisma.service';
 import {
   AddDeviceParam,
+  ReturnClientParam,
   SendCommandParam,
   UpdateDeviceParam,
 } from './device.dto';
@@ -115,5 +116,39 @@ export class DevicesService {
 
     delete addToken.password;
     return addToken;
+  }
+
+  public async returnClient(returnClientParam: ReturnClientParam) {
+    const device = await this.prismaService.device.findUnique({
+      where: { fcmTokenDevice: returnClientParam.fcmTokenDevice },
+    });
+
+    if (!device) {
+      throw new NotFoundException('Device not found');
+    }
+
+    const user = await this.prismaService.user.findUnique({
+      where: { id: device.userId },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    delete user.password;
+    try {
+      const response = await firebaseAdmin.messaging().send({
+        token: user.fcmToken,
+        android: {
+          priority: 'high',
+        },
+        data: {
+          response: returnClientParam.message,
+        },
+      });
+      return response;
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 }
