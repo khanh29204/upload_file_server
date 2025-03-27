@@ -29,8 +29,8 @@ export class UsersService {
 
   public async findOne(userName: string) {
     return await this.prismaService.user
-      .findUnique({
-        where: { userName },
+      .findFirst({
+        where: { userName: userName },
       })
       .catch((err) => {
         if (err.code === PrismaErrorCode.RecordDoesNotExist) {

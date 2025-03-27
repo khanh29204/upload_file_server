@@ -8,12 +8,15 @@ import { AuthService } from '../auth/auth.service';
 import { AuthModule } from '../auth/auth.module';
 import { UsersModule } from '../users/users.module';
 import { JwtModule } from '@nestjs/jwt';
+import { DevicesModule } from '../devices/devices.module';
+import { DevicesService } from '../devices/devices.service';
 
 @Module({
   imports: [
     PrismaModule,
     AuthModule,
     UsersModule,
+    DevicesModule,
     JwtModule.registerAsync({
       useFactory: () => ({
         global: true,
@@ -22,7 +25,7 @@ import { JwtModule } from '@nestjs/jwt';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService, UsersService, AuthService],
+  providers: [AppService, UsersService, AuthService, DevicesService],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {

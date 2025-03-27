@@ -1,0 +1,25 @@
+import { IsNotEmpty, IsOptional } from 'class-validator';
+
+export class AddDeviceParam {
+  @IsNotEmpty()
+  deviceName: string;
+
+  @IsNotEmpty()
+  fcmTokenDevice: string;
+}
+
+export class UpdateDeviceParam {
+  @IsOptional()
+  deviceName?: string;
+
+  @IsOptional()
+  fcmTokenDevice?: string;
+}
+
+export class SendCommandParam {
+  @IsNotEmpty()
+  deviceId: string;
+
+  @IsNotEmpty()
+  command: string;
+}
