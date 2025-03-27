@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Put,
   Req,
@@ -55,5 +56,11 @@ export class DevicesController {
   async getDevicesByUserId(@Req() req: Request) {
     const user: TokenPayload = req['user'];
     return await this.deviceService.getDevicesByUserId(user.id);
+  }
+
+  @Patch('/add-my-token')
+  async addMyToken(@Req() req: Request, @Body() body: { token: string }) {
+    const user: TokenPayload = req['user'];
+    return await this.deviceService.addMyToken(body.token, user.id);
   }
 }

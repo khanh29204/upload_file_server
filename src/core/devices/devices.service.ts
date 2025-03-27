@@ -99,4 +99,21 @@ export class DevicesService {
   public async getDevicesByUserId(userId: string) {
     return await this.prismaService.device.findMany({ where: { userId } });
   }
+
+  public async addMyToken(myToken: string, userId: string) {
+    const addToken = await this.prismaService.user
+      .update({
+        where: { id: userId },
+        data: { fcmToken: myToken },
+      })
+      .catch((error) => {
+        if (error.code === PrismaErrorCode.RecordDoesNotExist) {
+          throw new NotFoundException('User not found');
+        }
+        throw error;
+      });
+
+    delete addToken.password;
+    return addToken;
+  }
 }
