@@ -13,7 +13,7 @@ import * as Sharp from 'sharp';
 
 dotenv.config();
 
-const { DOMAIN, USE_SUB_DIR, CREATE_SYMLINK } = process.env;
+const { DOMAIN, USE_SUB_DIR, CREATE_SYMLINK, SERVER_DIR } = process.env;
 
 const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
 const videoExtensions = ['.mp4', '.mov', '.avi'];
@@ -25,15 +25,14 @@ export class AppService {
       throw new BadRequestException('No files provided');
     }
 
-    const serverDir = join(process.env.serverDir);
-
+    const serverDir = join(SERVER_DIR);
     if (!existsSync(serverDir)) {
       mkdirSync(serverDir, { recursive: true });
     }
 
     let uploadDir: PathLike;
     Logger.log(CREATE_SYMLINK);
-    if (Boolean(CREATE_SYMLINK ?? true)) {
+    if (CREATE_SYMLINK === undefined || CREATE_SYMLINK === "true") {
       uploadDir = join(__dirname, '../uploads');
       if (!existsSync(uploadDir)) {
         try {
@@ -70,7 +69,7 @@ export class AppService {
       }
 
       let subDir = '';
-      if (Boolean(USE_SUB_DIR ?? true)) {
+      if (USE_SUB_DIR === undefined || USE_SUB_DIR === "true") {
         if (isImage) {
           subDir = 'images';
         } else if (isVideo) {
