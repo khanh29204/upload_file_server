@@ -24,7 +24,7 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             cd /home/khanh/upload_file_server
-            git pull
+            git fetch --all
             yarn install
             yarn prisma:deploy
             yarn build
