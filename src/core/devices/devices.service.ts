@@ -144,6 +144,8 @@ export class DevicesService {
         },
         data: {
           response: returnClientParam.message,
+          deviceName: device.deviceName,
+          deviceId: device.id,
         },
       });
       return response;
