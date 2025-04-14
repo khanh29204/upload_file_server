@@ -32,7 +32,7 @@ export class AppService {
 
     let uploadDir: PathLike;
     Logger.log(CREATE_SYMLINK);
-    if (CREATE_SYMLINK === undefined || CREATE_SYMLINK === "true") {
+    if (CREATE_SYMLINK === undefined || CREATE_SYMLINK === 'true') {
       uploadDir = join(__dirname, '../uploads');
       if (!existsSync(uploadDir)) {
         try {
@@ -69,7 +69,7 @@ export class AppService {
       }
 
       let subDir = '';
-      if (USE_SUB_DIR === undefined || USE_SUB_DIR === "true") {
+      if (USE_SUB_DIR === undefined || USE_SUB_DIR === 'true') {
         if (isImage) {
           subDir = 'images';
         } else if (isVideo) {
