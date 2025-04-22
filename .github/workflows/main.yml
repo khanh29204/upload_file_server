@@ -24,9 +24,8 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             cd /home/khanh/upload_file_server
-            git fetch --all
             git pull
-            yarn install
+            yarn install --production
             yarn prisma:deploy
             yarn build
 
@@ -46,4 +45,4 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            pm2 restart 'web upload file'
+            pm2 restart 'upload file server'
