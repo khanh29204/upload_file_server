@@ -43,4 +43,16 @@ export class AuthService {
 
     return createUser.id;
   }
+
+  public async checkToken(token: string) {
+    const decode = await this.jwtService
+      .verifyAsync(token, {
+        secret: process.env.JWT_SECRET,
+      })
+      .catch(() => {
+        throw new UnauthorizedException('Invalid token');
+      });
+
+    return decode;
+  }
 }

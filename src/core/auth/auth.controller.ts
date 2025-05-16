@@ -18,4 +18,10 @@ export class AuthController {
   async login(@Body() loginParams: LoginParams) {
     return this.authService.login(loginParams);
   }
+
+  @Public()
+  @Post('/checkToken')
+  async checkToken(@Body() body: { token: string }) {
+    return this.authService.checkToken(body.token);
+  }
 }
