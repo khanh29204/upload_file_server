@@ -11,12 +11,18 @@ import {
 
 dotenv.config(); // Đảm bảo gọi dotenv.config() trước khi truy cập process.env
 
-const { DOMAIN, PORT } = process.env;
+const { DOMAIN, PORT, CORS } = process.env;
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useStaticAssets(join(__dirname, '..', 'uploads'), { prefix: '/file' });
-  app.enableCors();
+  const corsList = CORS.split(',');
+  app.enableCors({
+    // localhost, domain và subdomain của quockhanh020924.id.vn
+    origin: corsList,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Cho phép tất cả các phương thức HTTP
+    credentials: true, // Cho phép gửi cookie và header xác thực
+  });
 
   app.useGlobalPipes(
     new ValidationPipe({
