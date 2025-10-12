@@ -44,7 +44,7 @@ async function bootstrap() {
     serverUrl = `${DOMAIN}/`;
   } else {
     method = DOMAIN.includes('localhost') ? 'http' : 'https';
-    serverUrl = `${method}://${DOMAIN}:${PORT || 3001}/`;
+    serverUrl = `${method}://${DOMAIN}/`;
   }
 
   Logger.log(serverUrl);
