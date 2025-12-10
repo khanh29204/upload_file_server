@@ -140,14 +140,19 @@ export class DevicesService {
       let response;
       if (returnClientParam.isSendNotification) {
         response = await firebaseAdmin.messaging().send({
-          token: device.fcmTokenDevice,
+          token: user.fcmToken,
           android: {
             priority: 'high',
+            ttl: 0,
+            notification: {
+              channelId: 'incoming_call',
+            },
           },
           data: {
             response: returnClientParam.message,
             deviceName: device.deviceName,
             deviceId: device.id,
+            type: 'CALL',
           },
           notification: {
             title: 'Notification',
