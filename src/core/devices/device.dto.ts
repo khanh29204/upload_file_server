@@ -31,5 +31,6 @@ export class ReturnClientParam {
   @IsNotEmpty()
   message: string;
 
+  @IsOptional()
   isSendNotification: boolean = false;
 }

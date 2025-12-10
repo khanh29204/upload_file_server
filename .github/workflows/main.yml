@@ -24,9 +24,8 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             cd /home/khanh/upload_file_server
-            rm yarn.lock
-            git pull
-            yarn install --production
+            git pull            
+            yarn install --frozen-lockfile
             yarn prisma:deploy
             yarn build
 
