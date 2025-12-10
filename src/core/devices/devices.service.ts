@@ -129,13 +129,12 @@ export class DevicesService {
 
     const user = await this.prismaService.user.findUnique({
       where: { id: device.userId },
+      select: { fcmToken: true },
     });
 
     if (!user) {
       throw new NotFoundException('User not found');
     }
-
-    delete user.password;
     try {
       let response;
       if (returnClientParam.isSendNotification) {
@@ -153,10 +152,6 @@ export class DevicesService {
             deviceName: device.deviceName,
             deviceId: device.id,
             type: 'CALL',
-          },
-          notification: {
-            title: 'Notification',
-            body: returnClientParam.message,
           },
         });
       } else {
