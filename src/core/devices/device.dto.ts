@@ -30,4 +30,6 @@ export class ReturnClientParam {
 
   @IsNotEmpty()
   message: string;
+
+  isSendNotification: boolean = false;
 }

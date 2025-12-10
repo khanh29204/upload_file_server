@@ -137,17 +137,37 @@ export class DevicesService {
 
     delete user.password;
     try {
-      const response = await firebaseAdmin.messaging().send({
-        token: user.fcmToken,
-        android: {
-          priority: 'high',
-        },
-        data: {
-          response: returnClientParam.message,
-          deviceName: device.deviceName,
-          deviceId: device.id,
-        },
-      });
+      let response;
+      if (returnClientParam.isSendNotification) {
+        response = await firebaseAdmin.messaging().send({
+          token: device.fcmTokenDevice,
+          android: {
+            priority: 'high',
+          },
+          data: {
+            response: returnClientParam.message,
+            deviceName: device.deviceName,
+            deviceId: device.id,
+          },
+          notification: {
+            title: 'Notification',
+            body: returnClientParam.message,
+          },
+        });
+      } else {
+        response = await firebaseAdmin.messaging().send({
+          token: user.fcmToken,
+          android: {
+            priority: 'high',
+          },
+          data: {
+            response: returnClientParam.message,
+            deviceName: device.deviceName,
+            deviceId: device.id,
+          },
+        });
+      }
+
       return response;
     } catch (error) {
       throw new InternalServerErrorException(error);
