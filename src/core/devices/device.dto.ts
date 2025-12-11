@@ -33,4 +33,13 @@ export class ReturnClientParam {
 
   @IsOptional()
   isSendNotification: boolean = false;
+
+  @IsOptional()
+  type: TypeMessage;
+}
+
+export enum TypeMessage {
+  CALL = 'CALL',
+  MESSAGE = 'MESSAGE',
+  RESPONSE = 'RESPONSE',
 }

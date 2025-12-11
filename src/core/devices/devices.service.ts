@@ -10,6 +10,7 @@ import {
   AddDeviceParam,
   ReturnClientParam,
   SendCommandParam,
+  TypeMessage,
   UpdateDeviceParam,
 } from './device.dto';
 import { PrismaErrorCode } from 'src/prisma/prisma.util';
@@ -137,7 +138,10 @@ export class DevicesService {
     }
     try {
       let response;
-      if (returnClientParam.isSendNotification) {
+      if (
+        returnClientParam.type &&
+        returnClientParam.type !== TypeMessage.RESPONSE
+      ) {
         response = await firebaseAdmin.messaging().send({
           token: user.fcmToken,
           android: {
@@ -151,7 +155,7 @@ export class DevicesService {
             response: returnClientParam.message,
             deviceName: device.deviceName,
             deviceId: device.id,
-            type: 'CALL',
+            type: returnClientParam.type,
           },
         });
       } else {
